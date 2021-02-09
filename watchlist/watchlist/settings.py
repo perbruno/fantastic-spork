@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #  My Apps
+    'tracker.apps.TrackerConfig',
+    'strainer.apps.StrainerConfig',
+    'mailer.apps.MailerConfig',
 ]
 
 MIDDLEWARE = [

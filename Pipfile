@@ -5,8 +5,11 @@ name = "pypi"
 
 [packages]
 django = "*"
+requests = "*"
+celery = "*"
 
 [dev-packages]
+ipdb = "*"
 
 [requires]
 python_version = "3.7"
