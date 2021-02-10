@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'tracker.apps.TrackerConfig',
     'strainer.apps.StrainerConfig',
     'mailer.apps.MailerConfig',
+    # custom
+    'huey.contrib.djhuey',
+
 ]
 
 MIDDLEWARE = [
@@ -83,6 +86,11 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+from huey import SqliteHuey
+
+HUEY = SqliteHuey(filename= BASE_DIR /'huey.db')
 
 
 # Password validation

@@ -1,9 +1,9 @@
 import requests
-import asyncio, json
-import django
+import json
 
 from datetime import timedelta,datetime
 from math import trunc
+from .models import post_stock
 
 
 def time_format(value):  
@@ -27,7 +27,7 @@ def is_market_open():
     return market_info 
 
 
-async def get_stocks_(page, size):
+def get_stocks(page, size):
     crumb = "zMZ6fwKSgsB"
 
     url = f"https://query2.finance.yahoo.com/v1/finance/screener?crumb={crumb}&lang=en-US&region=US&formatted=true"
@@ -44,32 +44,17 @@ async def get_stocks_(page, size):
     quotes = response.json()['finance']['result'][0]['quotes']
 
     for quote in quotes:
-            symbol = quote['symbol'][0:-3]
+            code = quote['symbol'][0:-3]
             name = quote.get('longName') if quote.get('longName') else quote.get('shortName')
-            quote['regularMarketPrice']['raw']
-
+            price = quote['regularMarketPrice']['raw']
+            post_stock(code,name,price)
 
     return response.json()['finance']['result'][0]['total']
 
 
-async def get_stocks():
+def get_all_stocks():
     size = 100
-    response_json = await get_stocks_(0,size)
-
+    response_json = get_stocks(0,size)
     pages = trunc(response_json/size)
+    [get_stocks(i+1,size) for i in range(pages)]
 
-    await asyncio.gather(*[get_stocks_(i+1,size) for i in range(pages)])
-
-
-def get_data():
-    try:
-        market_status = is_market_open()
-
-        if (market_status.get('status') != 'open' or (market_status.get('close') > market_status.get('time'))):
-            print('sim')
-            asyncio.run(get_stocks())        
-        else:
-            print('não')
-            return 'market closed'
-    except:
-        print('Something unexpected happened')
