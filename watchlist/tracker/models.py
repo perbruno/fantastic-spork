@@ -20,6 +20,17 @@ def post_stock(cd,nm,prc):
     record.save()
 
 def get_stock(code): #wip
-    record = Stock.objects.filter(code__exact=code)
-    print(record)
-    return record
+    try:
+        record = Stock.objects.filter(code__iexact=code).values().latest('created_at')
+    except models.ObjectDoesNotExist as err:
+        print('{}: {}'.format(code,err))
+    else:
+        return record
+
+def get_stock_history(code):
+    try:
+        records = Stock.objects.filter(code__iexact=code).order_by('-created_at').values('created_at','price')
+    except models.ObjectDoesNotExist as err:
+        print('{}: {}'.format(code,err))
+    else:
+        return list(records)

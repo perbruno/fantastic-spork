@@ -10,12 +10,12 @@ def get_data():
     try:
         market_status = is_market_open()
     except:
-        print('Deu ruim na API, consagrado...')
+        Exception("The application is facing some issues with external API")
     else:
         if (market_status.get('status') == 'open' or (market_status.get('close') > market_status.get('time'))):
-            print('sim')
-            get_all_stocks()        
+            print('Starting Job')
+            return get_all_stocks()        
         else:
-            print('não')
-            return 'market closed'
+            print('Closed Market')
+            return 'Closed Market'
 
