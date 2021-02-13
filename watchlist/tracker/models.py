@@ -56,5 +56,5 @@ def get_last_stocks():
     """)
     rows = []
     for row in sql:
-        rows.append([row.code,row.price,row.created_at])
+        rows.append([row.code,row.price])
     return rows

@@ -14,10 +14,12 @@ def get_data():
     else:
         if (market_status.get('status') == 'open' or (
             market_status.get('close') > market_status.get('time'))):
+
             print('Starting Job')
+            
             get_all_stocks()  
-            last_stocks_prices = get_last_stocks()      
-            strainer.task.select_users(last_stocks_prices)
+            lastest_stock_prices = get_last_stocks()      
+            select_users(lastest_stock_prices)
             return 
         else:
             print('Closed Market')
