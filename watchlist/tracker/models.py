@@ -34,3 +34,27 @@ def get_stock_history(code):
         print('{}: {}'.format(code,err))
     else:
         return list(records)
+
+def get_last_stocks():
+    Stock.objects.distinct('code')
+    sql = Stock.objects.raw("""
+        select 
+            id,
+            tracker_stock.code as code,
+            price,
+            created_at 
+        from (
+            select 
+                code, 
+                max(created_at) as cdate  
+            from tracker_stock 
+            group by code
+        ) as last_stocks 
+        join tracker_stock 
+            ON tracker_stock.code = last_stocks.code 
+            AND tracker_stock.created_at = last_stocks.cdate;
+    """)
+    rows = []
+    for row in sql:
+        rows.append([row.code,row.price,row.created_at])
+    return rows
