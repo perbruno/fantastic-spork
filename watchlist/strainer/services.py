@@ -1,15 +1,20 @@
+from django.db import models
+
 from .models import User
+from tracker.models import get_stock
 
 class Watchlist:
     def __init__(self,email):
         self.email = email
 
     def validate_user(self):
-        user_data = User.objects.filter(email__exact=self.email).values()
-        if len(user_data)!=1:
-            raise ValueError("User {} doesn't exist.".format(self.email))
-        return user_data
-        
+        try:
+            user_data = User.objects.filter(email__exact=self.email).values()
+        except models.EmptyResultSet as err:
+            print("User {} doesn't exist.{}".format(self.email,err))
+        else:
+            return user_data
+
 
     def get_watchlist(self):
         user_data = self.validate_user()
@@ -24,6 +29,9 @@ class Watchlist:
         """ 
         self.validate_user()
 
+
+        return kwargs
+
     
     def put_watchlist(self,**kwargs):
         """
@@ -37,3 +45,7 @@ class Watchlist:
     def delete_watchlist(self, **kwargs):
         self.validate_user()
         pass
+
+
+class Radar:
+    pass
