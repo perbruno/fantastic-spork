@@ -1,4 +1,4 @@
-from tracker.models import Stock
+from watchlist.tracker.models import Stock
 from .models import User
 from .services import Radar
 
@@ -7,27 +7,24 @@ def get_interested_users(action,quotes):
     for stock,price in quotes:
         users = User.objects.filter(watchlist__has_key = stock)\
             .values('email','watchlist','radar')
-        if len(users) == 0:
-            continue
-        elif action=='buy':
-            for user in users:
-                if user['watchlist'][stock].get(action) is not None:
-                    # if user['radar'].get(action).get(stock)
-                    if user['watchlist'][stock].get(action)>=price:
-                        #  Radar.add_item(user.email, action,stock):
+        for user in users:
 
-                    else:
-                else:
-                    continue
-            pass
-        else:
-            pass
+            if bool(user['watchlist'][stock].get(action) is not None) and \
+                (bool(action=='buy' and user['watchlist'][stock].get(action)>=price) ^ \
+                bool(action=='sell' and user['watchlist'][stock].get(action)<=price)):
 
-    # user , action , stock
-    pass
+                Radar.add_item(user['email'], stock,action,price)
+
+            elif bool(type(user['radar'])==dict) and \
+                (bool(action=='buy' and user['watchlist'][stock].get(action)<price) ^ \
+                bool(action=='sell' and user['watchlist'][stock].get(action)>price)):
+
+                Radar.delet_item(user['email'], stock,action,price)
+
+            
+    return None
 
 
 def select_users(lastest_stock_prices):
-    buyers = get_interested_users('buy',lastest_stock_prices)
-    sellers = get_interested_users('sell',lastest_stock_prices)
-    check_radar(buyers, sellers)
+    get_interested_users('buy',lastest_stock_prices)
+    get_interested_users('sell',lastest_stock_prices)

@@ -1,7 +1,7 @@
 from django.db import models
 
 from .models import User
-from tracker.models import get_stock
+from watchlist.tracker.models import get_stock
 
 class Watchlist:
     def __init__(self,email):
