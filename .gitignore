@@ -1,2 +1,5 @@
 db*
 *.pyc
+
+watchlist/strainer/migrations
+watchlist/tracker/migrations
