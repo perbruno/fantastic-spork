@@ -1,30 +1,31 @@
 from watchlist.tracker.models import Stock
 from .models import User
-from .services import Radar
+from .services import Radar , check_crossed_borders
 
 
-def get_interested_users(action,quotes):
-    for stock,price in quotes:
-        users = User.objects.filter(watchlist__has_key = stock)\
-            .values('email','watchlist','radar')
+
+
+
+
+def get_interested_users(action, quotes):
+    userlist = set()
+    for stock, price in quotes:
+        users = User.objects.filter(watchlist__has_key=stock)\
+            .values('email', 'watchlist', 'radar')
         for user in users:
+            if check_crossed_borders('outside', action, stock, price, user):
+                Radar.add_item(user['email'], stock, action)
+                userlist.add(user['email'])
+            elif check_crossed_borders('inside', action, stock, price, user):
+                Radar.delete_item(user['email'], stock, action, price)
+    
 
-            if bool(user['watchlist'][stock].get(action) is not None) and \
-                (bool(action=='buy' and user['watchlist'][stock].get(action)>=price) ^ \
-                bool(action=='sell' and user['watchlist'][stock].get(action)<=price)):
 
-                Radar.add_item(user['email'], stock,action,price)
-
-            elif bool(type(user['radar'])==dict) and \
-                (bool(action=='buy' and user['watchlist'][stock].get(action)<price) ^ \
-                bool(action=='sell' and user['watchlist'][stock].get(action)>price)):
-
-                Radar.delet_item(user['email'], stock,action,price)
-
-            
-    return None
 
 
 def select_users(lastest_stock_prices):
-    get_interested_users('buy',lastest_stock_prices)
-    get_interested_users('sell',lastest_stock_prices)
+
+    buyers=get_interested_users('buy', lastest_stock_prices)
+    sellers=get_interested_users('sell', lastest_stock_prices)
+    selected_users=list(set(buyers) | set(sellers))
+    return selected_users
