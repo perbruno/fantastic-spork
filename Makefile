@@ -2,9 +2,10 @@ db:
 	pipenv run python watchlist/manage.py makemigrations
 	pipenv run python watchlist/manage.py migrate
 
-# run:
-#	cd watchlist
-#	pipenv run python manage.py runserver &&	pipenv run python manage.py run_huey
+run:
+#	cd watchlist/
+#	pwd
+	pipenv run ./watchlist/manage.py runserver
 
 install:
 	pip install pipenv 
@@ -16,6 +17,10 @@ install:
 	make db
 #	make run
 
+test:
+	python watchlist/manage.py test watchlist
 
+shell:
+	python watchlist/manage.py shell
 
 
