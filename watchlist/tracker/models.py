@@ -4,10 +4,12 @@ import uuid
 
 # Create your models here.
 
+
 class Stock(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     code = models.CharField(max_length=10, db_index=True)
-    name = models.CharField(max_length=90, blank=True, null=True,db_index=True)
+    name = models.CharField(max_length=90, blank=True,
+                            null=True, db_index=True)
     price = models.FloatField()
     created_at = models.DateTimeField(auto_now=True)
 
@@ -15,28 +17,32 @@ class Stock(models.Model):
         return f'{self.code} - {self.name}'
 
 
-def post_stock(cd,nm,prc): 
-    record = Stock(code=cd, name=nm ,price=prc)
+def post_stock(cd, nm, prc):
+    record = Stock(code=cd, name=nm, price=prc)
     record.save()
 
-def get_stock(code): #wip
+
+def get_stock(code):  # wip
     try:
-        record = Stock.objects.filter(code__iexact=code).values().latest('created_at')
+        record = Stock.objects.filter(
+            code__iexact=code).values().latest('created_at')
     except models.ObjectDoesNotExist as err:
-        print('{}: {}'.format(code,err))
+        print('{}: {}'.format(code, err))
     else:
         return record
 
+
 def get_stock_history(code):
     try:
-        records = Stock.objects.filter(code__iexact=code).order_by('-created_at').values('created_at','price')
+        records = Stock.objects.filter(code__iexact=code).order_by(
+            '-created_at').values('created_at', 'price')
     except models.ObjectDoesNotExist as err:
-        print('{}: {}'.format(code,err))
+        print('{}: {}'.format(code, err))
     else:
         return list(records)
 
+
 def get_last_stocks():
-    Stock.objects.distinct('code')
     sql = Stock.objects.raw("""
         select 
             id,
@@ -56,5 +62,5 @@ def get_last_stocks():
     """)
     rows = []
     for row in sql:
-        rows.append([row.code,row.price])
+        rows.append([row.code, row.price])
     return rows
