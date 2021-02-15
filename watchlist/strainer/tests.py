@@ -30,4 +30,3 @@ class RadarTest(TestCase):
 
     def testCheckRadarSell(self, action='sell'):
         self.assertEqual(Radar.check_radar(self.user, action, 'TEST11'), False)
-

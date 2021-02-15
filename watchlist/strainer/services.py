@@ -46,7 +46,7 @@ class Watchlist:
 class Radar:
     def __init__(self):
         super().__init__()
-    
+
     @staticmethod
     def check_radar(user, action, stock):
         if type(user['radar']) == dict and \
