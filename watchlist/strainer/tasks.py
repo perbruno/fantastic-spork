@@ -10,10 +10,10 @@ def get_interested_users(action, quotes):
             .values('email', 'watchlist', 'radar')
         for user in users:
             if check_crossed_borders('outside', action, stock, price, user):
-                Radar.add_item(user['email'], stock, action)
+                Radar.add_item(user, stock, action)
                 userlist.add(user['email'])
             elif check_crossed_borders('inside', action, stock, price, user):
-                Radar.delete_item(user['email'], stock, action, price)
+                Radar.delete_item(user, stock, action)
                 userlist.add(user['email'])
     return userlist
 

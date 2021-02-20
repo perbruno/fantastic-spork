@@ -1,0 +1,93 @@
+{% load l10n %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Watchlist{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+    crossorigin="anonymous" />
+</head>
+
+<body>
+
+  <nav class="navbar is-dark is-active" role="navigation" aria-label="main navigation" style="width:100vw;position:fixed;">
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="/">
+          Home
+        </a>
+      </div>
+      <div class="navbar-center">
+        <div class="navbar-item">
+          <div class="field has-addons">
+            <div class="control">
+              <input class="input" type="text" placeholder="Código do ativo">
+            </div>
+            <div class="control">
+              <a class="button has-text-info">
+                <i class="fas fa-search"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          {{ user.email }}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  {% localize on %}
+  <section class="section">
+    <br><br>
+    <div class="full-container grid">
+      <div class="columns">
+        <div class="column section">
+          {% block left %}
+          {% endblock %}
+        </div>
+        <div class="column is-one-quarter section">
+          <div class="content" style="position: fixed;">
+            {% block right_radar %}
+            <div>
+            {% if user.radar != '{}' %}
+            <h3 class="title is-3">Radar</h3>
+            {% for dict in user.radar.items%}
+            {% for dic in dict%}
+            {%if forloop.first%}
+            <h4 class="title is-4">{{dic|title}}</h4>
+            {%else%}
+            <ul>
+              {%for ahoy in dic%}
+              <li>{{ahoy}} </li>
+              {%empty%}<em>Sem notificações</em>
+              {%endfor%}
+            </ul>
+            {% endif %}
+            {%endfor%}
+            {%endfor%}
+            {% else %}
+            <em>Não há nada no <b>Radar</b></em>
+            {% endif %}
+          </div>
+            {% endblock %}
+            <div>
+              {%block right_watchlist%}
+              {%endblock%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endlocalize %}
+</body>
+
+</html>

@@ -1,3 +1,6 @@
+import pytz
+
+from datetime import datetime
 from django.db import models
 
 from .models import User
@@ -56,17 +59,39 @@ class Radar:
         else:
             return False
 
+    @staticmethod
+    def save_radar(user):
+        User.objects.filter(email__exact=user['email'])\
+                    .update(radar=user['radar'],
+                            updated_at=datetime.now(tz=pytz.UTC))
+        return None
+
+    @classmethod
+    def add_item(cls, user, stock, action):
+        if type(user['radar']) == dict:
+            if user['radar'].get(action) is not None:
+                user['radar'].get(action).append(stock)
+            else:
+                user['radar'].update({action: [stock]})
+        else:
+            user['radar'] = {action: [stock]}
+        Radar.save_radar(user)
+
+    @staticmethod
+    def delete_item(user, stock, action):
+        user['radar'].get(action).remove(stock)
+        Radar.save_radar(user)
+
 
 def check_crossed_borders(direction, action, stock, price, user):
-    if user['watchlist'][stock].get(action) is None or \
-            Radar.check_radar(user, action, stock):
+    if user['watchlist'][stock].get(action) is None:
         return False
     else:
-        if direction == 'outside' and \
+        if direction == 'outside' and not Radar.check_radar(user, action, stock) and \
             (action == 'buy' and user['watchlist'][stock].get(action) >= price) ^ \
                 (action == 'sell' and user['watchlist'][stock].get(action) <= price):
             return True
-        elif direction == 'inside' and \
+        elif direction == 'inside' and Radar.check_radar(user, action, stock) and \
             (action == 'buy' and user['watchlist'][stock].get(action) < price) ^ \
                 (action == 'sell' and user['watchlist'][stock].get(action) > price):
             return True
