@@ -22,7 +22,7 @@ def post_stock(cd, nm, prc):
     record.save()
 
 
-def get_stock(code):  # wip
+def get_stock(code):
     try:
         record = Stock.objects.filter(
             code__iexact=code).values().latest('created_at')
@@ -42,13 +42,14 @@ def get_stock_history(code):
         return list(records)
 
 
-def get_last_stocks():
+def get_last_stocks(*args):
     sql = Stock.objects.raw("""
-        select 
+        select
             id,
             tracker_stock.code as code,
             price,
-            created_at 
+            created_at ,
+            name
         from (
             select 
                 code, 
@@ -62,5 +63,10 @@ def get_last_stocks():
     """)
     rows = []
     for row in sql:
-        rows.append([row.code, row.price])
+        answer = [row.code,row.price]
+        if 'date' in args:
+            answer.append(row.created_at)
+        if 'name' in args:
+            answer.append(row.name)
+        rows.append(answer)
     return rows
