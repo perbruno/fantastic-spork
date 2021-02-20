@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load l10n %}
+
+
+{% block left%}
+{% localize on %}
+
+<table class="table is-striped is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>Codigo</th>
+      <th>Nome</th>
+      <th>Preço</th>
+      <th>Data</th>
+    </tr>
+  <tbody>
+    {% for item in stock %}
+    <tr>
+      
+    <th><a href="{% url 'stock-history' item.code %}">{{item.code}}</a></th>
+      <td>{{item.name}}</td>
+      <td>{{item.price|floatformat:2}}</td>
+      <td>{{item.date}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </thead>
+
+</table>
+{% endlocalize %}
+{% endblock %}
+
+
+
+{% block right_watchlist%}
+
+{% endblock %}
