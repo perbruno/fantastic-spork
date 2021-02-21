@@ -4,7 +4,6 @@ from datetime import datetime
 from django.db import models
 
 from .models import User
-# from watchlist.tracker.models import get_stock
 
 
 class Watchlist:
@@ -33,17 +32,20 @@ class Watchlist:
 
         return kwargs
 
+
+## WIP
     def put_watchlist(self, **kwargs):
         """
         the following model must be respected:
             user.put_watchlist(code = {'buy': 00.00 , 'sell':10.00} ...)
         """
         self.validate_user()
-        pass
 
+
+## WIP
     def delete_watchlist(self, **kwargs):
         self.validate_user()
-        pass
+        
 
 
 class Radar:

@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'mailer.apps.MailerConfig',
     # custom
     'huey.contrib.djhuey',
-
 ]
 
 MIDDLEWARE = [
@@ -115,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
 
@@ -130,3 +129,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = '036b5794b8c1a8'
+EMAIL_HOST_PASSWORD = '25872e38ef611f'
+EMAIL_PORT = '2525'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
