@@ -1,5 +1,7 @@
-db*
+# db*
 *.pyc
 
-watchlist/strainer/migrations
-watchlist/tracker/migrations
+
+.vscode/
+# watchlist/strainer/migrations
+# watchlist/tracker/migrations

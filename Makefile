@@ -18,7 +18,7 @@ install:
 #	make run
 
 test:
-	python watchlist/manage.py test watchlist
+	pipenv run python watchlist/manage.py test watchlist
 
 shell:
 	python watchlist/manage.py shell

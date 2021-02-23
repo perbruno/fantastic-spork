@@ -22,7 +22,7 @@
           Home
         </a>
       </div>
-      <div class="navbar-center">
+      <!-- <div class="navbar-center">
         <div class="navbar-item">
           <div class="field has-addons">
             <div class="control">
@@ -35,7 +35,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="navbar-end">
         <div class="navbar-item">
           {{ user.email }}
@@ -53,8 +53,8 @@
           {% block left %}
           {% endblock %}
         </div>
-        <div class="column is-one-quarter section">
-          <div class="content" style="position: fixed;">
+        <div class="column is-one-quarter section"">
+          <div class="content" style="position: fixed;overflow: scroll;height: 80vh;">
             {% block right_radar %}
             <div>
             {% if user.radar != '{}' %}
@@ -78,7 +78,7 @@
             {% endif %}
           </div>
             {% endblock %}
-            <div>
+            <div class="mt-5 pt-5">
               {%block right_watchlist%}
               {%endblock%}
             </div>

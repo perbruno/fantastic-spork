@@ -4,9 +4,11 @@ from django.shortcuts import render
 from django.http import Http404
 from django.core.exceptions import EmptyResultSet
 
+#from rest_framework import viewsets
+
 from .services import Watchlist
 from tracker.models import get_last_stocks, get_stock_history,get_stock
-
+#from .serializers import UserSerializer
 
 def user_data(email):
     return Watchlist(email).validate_user()[0]

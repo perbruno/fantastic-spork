@@ -1,4 +1,3 @@
-from watchlist.tracker.models import Stock
 from .models import User
 from .services import Radar, check_crossed_borders
 
