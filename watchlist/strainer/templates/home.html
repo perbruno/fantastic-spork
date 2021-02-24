@@ -29,21 +29,3 @@
 </table>
 {% endlocalize %}
 {% endblock %}
-
-
-
-{% block right_watchlist%}
-<h3 class="title is-3">Watchlist</h3>
-<div id=watchlist >
-<div class="control">
-  <textarea class="textarea" id="field">{{user.watchlist}}</textarea>
-    <button class="button is-primary mt-4" onclick="updateWatchlist()">Atualizar</button>
-</div>
-</form>
-<script>
-  function updateWatchlist() {
-    console.log("{{user.email}}")
-    console.debug(document.getElementById('field').innerHTML)
-  }
-</script>
-{% endblock %}
