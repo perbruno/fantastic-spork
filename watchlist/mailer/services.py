@@ -1,7 +1,7 @@
 from django.core.mail import send_mass_mail
 
-import watchlist.watchlist.settings as settings
-from watchlist.strainer.models import User
+import watchlist.settings as settings
+from strainer.models import User
 
 
 def format_email(email):
