@@ -15,3 +15,9 @@ autopep8 = "*"
 
 [requires]
 python_version = "3.7"
+
+[scripts]
+django = "./watchlist/manage.py runserver 8080"
+test = "python watchlist/manage.py test watchlist"
+huey = "./watchlist/manage.py run_huey -w 3"
+stop = "pkill -f watchlist/manage.py"
