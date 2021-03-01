@@ -1,3 +1,14 @@
+docker-install:
+	docker build -t inoa-django .
+
+
+docker-run:
+	docker run --network host -d inoa-django
+
+docker:
+	make docker-install
+	make docker-run
+
 db:
 	pipenv run python watchlist/manage.py makemigrations
 	pipenv run python watchlist/manage.py migrate
@@ -6,7 +17,7 @@ run-django:
 	pipenv run django
 
 run-huey:
-	pipenv run django
+	pipenv run huey
 
 run:
 	pipenv run django & \
@@ -30,6 +41,3 @@ test:
 
 shell:
 	python watchlist/manage.py shell
-
-docker:
-	pipenv 
