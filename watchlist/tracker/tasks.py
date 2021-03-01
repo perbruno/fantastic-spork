@@ -1,5 +1,3 @@
-import logging
-
 from huey import crontab 
 from huey.contrib.djhuey import db_periodic_task
 from .services import is_market_open, get_all_stocks
@@ -12,8 +10,6 @@ from mailer.services import send_email_to
 def get_data():
     try:
         market_status = is_market_open()
-        print(market_status)
-        logging.info(market_status)
     except Exception:
         print("The application is facing some issues with external API")
     else:
@@ -21,12 +17,10 @@ def get_data():
                 market_status.get('close') > market_status.get('time'))):
 
             print('Starting Job')
-            logging.info('Starting Job')
 
             get_all_stocks()
             send_email_to(select_users(get_last_stocks()))
             print('Finished')
-            logging.info('Finished')
             return "Done"
         else:
             print('Closed Market')
