@@ -3,7 +3,7 @@ docker-install:
 
 
 docker-run:
-	docker run --network host inoa-django
+	docker run --network host -d inoa-django
 
 docker:
 	make docker-install
