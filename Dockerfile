@@ -6,4 +6,5 @@ RUN apk update && apk upgrade && apk add --update alpine-sdk
 COPY . .
 RUN make install
 
-CMD [ "make", "run"]
+#EXPOSE 8080
+CMD make run-huey & make run-django
