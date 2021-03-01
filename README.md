@@ -24,3 +24,9 @@ Para matar os processos:
 
 ---
 ### Docker
+
+Instalar e executar
+> make docker 
+
+Rodar aplicação
+>make docker-run
