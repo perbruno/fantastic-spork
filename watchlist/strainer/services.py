@@ -23,18 +23,6 @@ class Watchlist:
         watchlist = user_data.first().get('watchlist')
         return watchlist if watchlist != '{}' else "User's watchlist is empty"
 
-    @classmethod
-    def post_watchlist(cls, *args, **kwargs):
-        """
-        the following model must be respected:
-            user.post_watchlist(code = {'buy': 00.00 , 'sell':10.00} ...)
-        """
-
-        cls.validate_user()
-
-        return kwargs
-
-
 class Radar:
     def __init__(self):
         super().__init__()

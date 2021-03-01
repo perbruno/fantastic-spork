@@ -1,6 +1,6 @@
 import logging
 
-from huey import crontab  # SqliteHuey,
+from huey import crontab 
 from huey.contrib.djhuey import db_periodic_task
 from .services import is_market_open, get_all_stocks
 from .models import get_last_stocks

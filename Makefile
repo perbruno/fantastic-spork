@@ -30,10 +30,6 @@ install:
 	pip install pipenv 
 	pipenv --python 3.7 
 	pipenv install
-#	pipenv install django
-#	pipenv install requests
-#	pipenv install huey
-#	pipenv install ipdb --dev
 	make db
 
 test:
