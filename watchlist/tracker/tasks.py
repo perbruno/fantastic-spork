@@ -1,9 +1,9 @@
-from huey import crontab  # SqliteHuey,
+from huey import crontab 
 from huey.contrib.djhuey import db_periodic_task
 from .services import is_market_open, get_all_stocks
 from .models import get_last_stocks
-from watchlist.strainer.tasks import select_users
-from watchlist.mailer.services import send_email_to
+from strainer.tasks import select_users
+from mailer.services import send_email_to
 
 
 @db_periodic_task(crontab(minute='*/15', hour='8-22', day_of_week='1-5'))
@@ -20,7 +20,8 @@ def get_data():
 
             get_all_stocks()
             send_email_to(select_users(get_last_stocks()))
-            return
+            print('Finished')
+            return "Done"
         else:
             print('Closed Market')
             return 'Closed Market'

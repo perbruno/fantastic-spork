@@ -89,7 +89,11 @@ DATABASES = {
 
 from huey import SqliteHuey
 
-HUEY = SqliteHuey(filename= BASE_DIR /'huey.db')
+
+HUEY = SqliteHuey(
+                  filename= BASE_DIR /'huey.sqlite3', 
+                  always_eager=False, 
+                 )
 
 
 # Password validation
